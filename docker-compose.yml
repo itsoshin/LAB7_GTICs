@@ -1,26 +1,35 @@
-version: '3.8'
-
 services:
   controller:
-    build: .   # O la ruta a tu Dockerfile / imagen
+    build: .
     container_name: controller
+    hostname: controller
     environment:
       - PEKKO_HOSTNAME=controller
-    ports:
-      - "2551:2551"
+    networks:
+      - sdn-net
 
   switch1:
     build: .
     container_name: switch1
-    environment:
-      - PEKKO_HOSTNAME=switch1
+    hostname: switch1
     depends_on:
       - controller
+    environment:
+      - PEKKO_HOSTNAME=switch1
+    networks:
+      - sdn-net
 
   switch2:
     build: .
     container_name: switch2
-    environment:
-      - PEKKO_HOSTNAME=switch2
+    hostname: switch2
     depends_on:
       - controller
+    environment:
+      - PEKKO_HOSTNAME=switch2
+    networks:
+      - sdn-net
+
+networks:
+  sdn-net:
+    driver: bridge

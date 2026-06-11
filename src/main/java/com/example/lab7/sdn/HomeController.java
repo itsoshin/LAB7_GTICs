@@ -13,7 +13,7 @@ public class HomeController {
         Config config = ConfigFactory.load();
         ActorSystem system = ActorSystem.create("SDNSystem", config);
 
-        String nodeName = config.getString("pekko.remote.artery.canonical.hostname");
+        String nodeName = system.settings().config().getString("pekko.remote.artery.canonical.hostname");
 
         if (nodeName.equals("controller")) {
 
