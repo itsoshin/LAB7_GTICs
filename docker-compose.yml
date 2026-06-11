@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  controller:
+    build: .   # O la ruta a tu Dockerfile / imagen
+    container_name: controller
+    environment:
+      - PEKKO_HOSTNAME=controller
+    ports:
+      - "2551:2551"
+
+  switch1:
+    build: .
+    container_name: switch1
+    environment:
+      - PEKKO_HOSTNAME=switch1
+    depends_on:
+      - controller
+
+  switch2:
+    build: .
+    container_name: switch2
+    environment:
+      - PEKKO_HOSTNAME=switch2
+    depends_on:
+      - controller
